@@ -48,6 +48,8 @@
 	if(suit && !ismob(loc)) //equipped() will handle mob cases, so it doesn't disengage twice.
 		suit.RemoveHelmet()
 		soundloop.stop(user)
+	if(HAS_TRAIT_FROM(user, TRAIT_SNOWSTORM_IMMUNE, "hardsuit")) ///GS13 Edit - Hardsuits protect from snowstorms
+		REMOVE_TRAIT(user, TRAIT_SNOWSTORM_IMMUNE, "hardsuit")
 
 /obj/item/clothing/head/helmet/space/hardsuit/item_action_slot_check(slot, mob/user, datum/action/A)
 	if(slot == ITEM_SLOT_HEAD)
@@ -63,6 +65,7 @@
 			qdel(src)
 	else
 		soundloop.start(user)
+		ADD_TRAIT(user, TRAIT_SNOWSTORM_IMMUNE, "hardsuit") //GS13 Edit - Hardsuits protect from snowstorms
 
 /obj/item/clothing/head/helmet/space/hardsuit/proc/display_visor_message(var/msg)
 	var/mob/wearer = loc
