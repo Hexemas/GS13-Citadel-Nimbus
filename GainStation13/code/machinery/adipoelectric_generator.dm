@@ -99,12 +99,20 @@
 
 /obj/machinery/power/adipoelectric_generator/close_machine()
 	. = ..()
+	errormessage = "[src] still needs to"
 	if(occupant && anchored && !panel_open)
 		add_fingerprint(occupant)
 		START_PROCESSING(SSobj, src)
 	else
-		src.visible_message("<span class='alert'>[src] needs to be anchored to a working wire and have a person going inside!</span>")
-		open_machine()
+		if(!occupant)
+			errormessage = errormessage + " have a person inside"
+		if(!anchored)
+			errormessage = errormessage + " be anchored to a wire"
+		if(panel_open)
+			errormessage = errormessage + " have its maintenance panel shut"
+	errormessage = errormessage + "!</span>"
+	src.visible_message("<span class='alert'>" + errormessage)
+	open_machine()
 
 /obj/machinery/power/adipoelectric_generator/update_icon()
 	cut_overlays()
